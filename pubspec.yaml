@@ -46,6 +46,8 @@ flutter:
   assets:
     - assets/logos/facebook.jpg
     - assets/logos/google.jpg
+    - assets/images/male_avatar.png
+    - assets/images/bgRed.jpg
 
 
   # The following line ensures that the Material Icons font is

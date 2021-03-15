@@ -23,11 +23,13 @@ void main() async {
 class MyApp extends StatelessWidget {
   bool isLogged;
   User user;
+
   MyApp(
       this.isLogged, this.user); // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           brightness: Brightness.dark,
