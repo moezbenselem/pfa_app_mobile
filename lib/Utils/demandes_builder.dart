@@ -3,19 +3,20 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pfa_app/Models/User.dart';
 import 'package:pfa_app/Models/demandes.dart';
 import 'package:pfa_app/widgets/demande_card.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 class DemandesBuilder extends StatelessWidget {
-  final int userId;
+  final User user;
 
-  DemandesBuilder({@required this.userId});
+  DemandesBuilder({@required this.user});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Demandes>(
-        future: fetchDemandes(userId),
+        future: fetchDemandes(user),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             print(snapshot.error);
@@ -35,11 +36,13 @@ class DemandesBuilder extends StatelessWidget {
         });
   }
 
-  Future<Demandes> fetchDemandes(int userId) async {
+  Future<Demandes> fetchDemandes(User user) async {
+    var token = user.token;
     http.Response response = await http.get(
-      Uri.http('backend-pfa.herokuapp.com', 'demandes/' + userId.toString()),
+      Uri.http('backend-pfa.herokuapp.com', 'demandes/' + user.id.toString()),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
       },
     );
     if (response.statusCode == 200) {

@@ -12,7 +12,7 @@ class MesDemandesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: DemandesBuilder(
-      userId: user.id,
+      user: user,
     ));
   }
 }
