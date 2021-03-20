@@ -7,6 +7,7 @@ import 'package:pfa_app/Models/User.dart';
 import 'package:pfa_app/Models/demandes.dart';
 import 'package:pfa_app/widgets/demande_card.dart';
 import 'package:progress_indicators/progress_indicators.dart';
+import 'api_config.dart';
 
 class DemandesBuilder extends StatelessWidget {
   final User user;
@@ -39,7 +40,7 @@ class DemandesBuilder extends StatelessWidget {
   Future<Demandes> fetchDemandes(User user) async {
     var token = user.token;
     http.Response response = await http.get(
-      Uri.http('backend-pfa.herokuapp.com', 'demandes/' + user.id.toString()),
+      Uri.http(apiBaseUrl, 'demandes/' + user.id.toString()),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',

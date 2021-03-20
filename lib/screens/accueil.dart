@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pfa_app/Models/User.dart';
 import 'package:pfa_app/Utils/SharedPref.dart';
+import 'package:pfa_app/Utils/api_config.dart';
 import 'package:pfa_app/consts/constants.dart';
 import 'package:pfa_app/screens/ajout_demande.dart';
 import 'package:pfa_app/screens/login.dart';
 import 'package:pfa_app/screens/mes_demandes.dart';
 import 'package:pfa_app/screens/profile.dart';
+import 'package:http/http.dart' as http;
 
 class DrawerItem {
   String title;
@@ -60,15 +64,28 @@ class _AccueilState extends State<Accueil> {
     }
   }
 
-  _onSelectItem(int index) {
+  _onSelectItem(int index) async {
     try {
       if (index == 6) {
+        var token = user.token;
         SharedPref sharedPrefs = SharedPref();
-        sharedPrefs.remove("user");
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return LoginScreen();
-        }));
+        http.Response response = await http.post(
+          Uri.http(apiBaseUrl, 'auth/logout'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token',
+          },
+        );
+        print(token);
+        print(response.statusCode);
+        print(response.body);
+        if (response.statusCode == 200) {
+          sharedPrefs.remove("user");
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) {
+            return LoginScreen();
+          }));
+        }
       } else {
         setState(() => selectedNav = index);
         Navigator.of(context).pop();

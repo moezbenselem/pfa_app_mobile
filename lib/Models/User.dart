@@ -3,7 +3,16 @@ import 'package:json_annotation/json_annotation.dart';
 @JsonSerializable()
 class User {
   int id;
-  String email, nom, prenom, cin, code, adresse, tel, description, token;
+  String email,
+      nom,
+      prenom,
+      cin,
+      code,
+      adresse,
+      tel,
+      description,
+      token,
+      refresh_token;
   bool verified, type;
 
   User(
@@ -17,6 +26,7 @@ class User {
       this.tel,
       this.description,
       this.token,
+      this.refresh_token,
       this.verified,
       this.type);
 
@@ -31,14 +41,10 @@ class User {
         info['adresse'],
         info['tel'],
         info['description'],
-        info['token_web'],
+        info['token'],
+        info['refresh_token'],
         info['verified'],
         info['type']);
-  }
-
-  @override
-  String toString() {
-    return 'User{id: $id, email: $email, nom: $nom, prenom: $prenom, cin: $cin, code: $code, adresse: $adresse, tel: $tel, description: $description, token: $token, verified: $verified, type: $type}';
   }
 
   Map<String, dynamic> toJson() => {
@@ -52,6 +58,7 @@ class User {
         'tel': tel,
         'description': description,
         'token': token,
+        'refresh_token': refresh_token,
         'verified': verified,
         'type': type,
       };

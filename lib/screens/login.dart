@@ -7,6 +7,7 @@ import 'package:pfa_app/Models/User.dart';
 import 'package:pfa_app/Utils/SharedPref.dart';
 import 'package:pfa_app/consts/constants.dart';
 import 'package:pfa_app/screens/accueil.dart';
+import '../Utils/api_config.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -297,7 +298,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
     http.Response response = await http.post(
-      Uri.http('backend-pfa.herokuapp.com', 'auth/login'),
+      Uri.http(apiBaseUrl, 'auth/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
