@@ -12,8 +12,11 @@ class User {
       tel,
       description,
       token,
+      code_entreprise,
+      type,
+      role,
       refresh_token;
-  bool verified, type;
+  bool verified;
 
   User(
       this.id,
@@ -27,24 +30,29 @@ class User {
       this.description,
       this.token,
       this.refresh_token,
-      this.verified,
-      this.type);
+      this.code_entreprise,
+      this.type,
+      this.role,
+      this.verified);
 
   factory User.fromJson(Map<String, dynamic> info) {
     return User(
-        info['id'],
-        info['email'],
-        info['nom'],
-        info['prenom'],
-        info['cin'],
-        info['code'],
-        info['adresse'],
-        info['tel'],
-        info['description'],
-        info['token'],
-        info['refresh_token'],
-        info['verified'],
-        info['type']);
+      info['id'],
+      info['email'],
+      info['nom'],
+      info['prenom'],
+      info['cin'],
+      info['code'],
+      info['adresse'],
+      info['tel'],
+      info['description'],
+      info['token'],
+      info['refresh_token'],
+      info['code_entreprise'],
+      info['type'],
+      info['role'],
+      info['verified'],
+    );
   }
 
   Map<String, dynamic> toJson() => {
@@ -59,7 +67,14 @@ class User {
         'description': description,
         'token': token,
         'refresh_token': refresh_token,
-        'verified': verified,
+        'refresh_token': refresh_token,
         'type': type,
+        'role': role,
+        'verified': verified,
       };
+
+  @override
+  String toString() {
+    return 'User{id: $id, email: $email, nom: $nom, prenom: $prenom, cin: $cin, code: $code, adresse: $adresse, tel: $tel, description: $description, token: $token, code_entreprise: $code_entreprise, type: $type, role: $role, refresh_token: $refresh_token, verified: $verified}';
+  }
 }

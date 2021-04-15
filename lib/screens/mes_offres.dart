@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pfa_app/Models/User.dart';
-import 'package:pfa_app/Utils/demandes_builder.dart';
+import 'package:pfa_app/Utils/offres_builder.dart';
 
-class MesDemandesScreen extends StatelessWidget {
+class MesOffresScreen extends StatelessWidget {
   User user;
 
-  MesDemandesScreen(this.user);
+  MesOffresScreen(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class MesDemandesScreen extends StatelessWidget {
           ],
         ),
         Expanded(
-            child: DemandesBuilder(
+            child: OffresBuilder(
           user: user,
         )),
       ],

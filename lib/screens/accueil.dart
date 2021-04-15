@@ -1,16 +1,19 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:pfa_app/Models/User.dart';
 import 'package:pfa_app/Utils/SharedPref.dart';
 import 'package:pfa_app/Utils/api_config.dart';
+import 'package:pfa_app/consts/const_strings.dart';
 import 'package:pfa_app/consts/constants.dart';
 import 'package:pfa_app/screens/ajout_demande.dart';
 import 'package:pfa_app/screens/login.dart';
 import 'package:pfa_app/screens/mes_demandes.dart';
+import 'package:pfa_app/screens/mes_offres.dart';
 import 'package:pfa_app/screens/profile.dart';
-import 'package:http/http.dart' as http;
 
 class DrawerItem {
   String title;
@@ -55,6 +58,9 @@ class _AccueilState extends State<Accueil> {
       case 0:
         return AjoutDemandeScreen(user);
         break;
+      case 3:
+        return MesOffresScreen(user);
+        break;
       case 2:
         return MesDemandesScreen(user);
         break;
@@ -98,10 +104,9 @@ class _AccueilState extends State<Accueil> {
   @override
   Widget build(BuildContext context) {
     //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
     List<Widget> drawerOptions = [];
 
-    if (user.type) {
+    if (user.role.toLowerCase() == USER_ROLE_CLIENT.toLowerCase()) {
       var d = widget.drawerItems[0];
       drawerOptions.add(new ListTile(
         leading: new Icon(d.icon),
@@ -123,7 +128,7 @@ class _AccueilState extends State<Accueil> {
         selected: 2 == selectedNav,
         onTap: () => _onSelectItem(2),
       ));
-    } else {
+    } else if (user.role.toLowerCase() == "transporteur") {
       var d = widget.drawerItems[1];
       drawerOptions.add(new ListTile(
         leading: new Icon(d.icon),
@@ -181,7 +186,7 @@ class _AccueilState extends State<Accueil> {
                 style: kDrawerStyle,
               ),
               accountEmail: Text(
-                user.description,
+                user.role[0].toUpperCase() + user.role.substring(1),
                 style: kDrawerStyle,
               ),
               currentAccountPicture: new CircleAvatar(

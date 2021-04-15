@@ -1,18 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pfa_app/Models/demande.dart';
+import 'package:pfa_app/Models/offre.dart';
 import 'package:pfa_app/consts/constants.dart';
 
-class DemandeCard extends StatelessWidget {
-  DemandeCard({@required this.data, @required this.height});
+class OffreCard extends StatelessWidget {
+  OffreCard({@required this.data, @required this.height});
 
-  final Demande data;
+  final Offre data;
   final double height;
 
   @override
   Widget build(BuildContext context) {
     double myWidth = MediaQuery.of(context).size.width;
-
     return GestureDetector(
       onTap: () {},
       child: Card(
@@ -36,25 +35,9 @@ class DemandeCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        data.description,
+                        data.commentaire,
                         style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.w100,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Text(
-                        "de " + data.depart,
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w100,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Text(
-                        "à " + data.destination,
-                        style: TextStyle(
-                          fontSize: 17,
                           fontWeight: FontWeight.w100,
                           color: Colors.grey,
                         ),
@@ -65,6 +48,14 @@ class DemandeCard extends StatelessWidget {
                           fontSize: 16,
                           fontWeight: FontWeight.w100,
                           color: Colors.grey,
+                        ),
+                      ),
+                      Text(
+                        data.prix.toString() + "dt",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w100,
+                          color: Colors.lightGreen,
                         ),
                       ),
                     ],
@@ -78,17 +69,8 @@ class DemandeCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Icon(Icons.info_outline),
-                      data.etat
-                          ? Icon(
-                              Icons.check,
-                              color: Colors.lightGreen,
-                            )
-                          : Icon(
-                              Icons.pending_outlined,
-                              color: Colors.orange,
-                            ),
                       Text(
-                        data.suivie,
+                        data.etat,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w100,

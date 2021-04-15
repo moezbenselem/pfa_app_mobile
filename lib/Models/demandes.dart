@@ -7,12 +7,10 @@ class Demandes {
 
   factory Demandes.fromJson(List<dynamic> demandes) {
     try {
-      print("demandes in Demande class : " + demandes.toString());
       List<Demande> ldemandes = [];
       for (var i = 0; i < demandes.length; i++) {
         ldemandes.add(Demande.fromJson(demandes[i]));
       }
-      print("demandes after for : " + ldemandes.toString());
       return Demandes(listDemandes: ldemandes);
     } catch (e) {
       print(e);

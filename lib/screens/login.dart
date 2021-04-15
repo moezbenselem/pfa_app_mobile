@@ -265,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<User> _login(email, password) async {
+  Future<User> _login(String email, String password) async {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -302,7 +302,8 @@ class _LoginScreenState extends State<LoginScreen> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{'email': email, 'password': password}),
+      body: jsonEncode(
+          <String, String>{'email': email.trim(), 'password': password}),
     );
     Map body = json.decode(response.body), info;
     //remove dialog
