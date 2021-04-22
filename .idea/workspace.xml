@@ -1,32 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="info" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d109582-cb81-40fe-82f4-33fc046e1cf7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/Models/offre.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Models/offres.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Utils/offres_builder.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/consts/const_strings.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/screens/mes_offres.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/widgets/offre_card.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/details.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/map.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Moez.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Moez.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Models/User.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Models/User.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Models/demande.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Models/demande.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Models/demandes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Models/demandes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Utils/SharedPref.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Utils/SharedPref.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Utils/demandes_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Utils/demandes_builder.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/accueil.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/accueil.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/ajout_demande.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/ajout_demande.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/login.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/mes_demandes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/mes_demandes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/demande_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/demande_card.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,7 +25,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_XL_API_28" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Galaxy_Nexus_API_23" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>

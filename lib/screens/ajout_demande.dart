@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:pfa_app/Models/User.dart';
 import 'package:pfa_app/consts/constants.dart';
+import 'package:pfa_app/screens/map.dart';
 
 class AjoutDemandeScreen extends StatefulWidget {
   User user;
@@ -14,6 +16,8 @@ class AjoutDemandeScreen extends StatefulWidget {
 
 class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
   User user;
+  var info = null;
+  String departure = '', destination = '';
   DateTime selectedDate = DateTime.now();
   var demandeData = {};
   var typeBagages = [
@@ -28,6 +32,9 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
   var selectedBagages = {};
   var selectedPaiement = null;
 
+  TextEditingController departController = new TextEditingController();
+  TextEditingController destinationcontroller = new TextEditingController();
+
   _AjoutDemandeScreenState(this.user);
 
   @override
@@ -41,8 +48,9 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             MyFormField("description", "Description :"),
-            MyFormField("depart", "Départ :"),
-            MyFormField("destination", "Destination :"),
+            MyFormFieldMap("depart", "Départ :", departController),
+            MyFormFieldMap(
+                "destination", "Destination :", destinationcontroller),
             Padding(
               padding: const EdgeInsets.only(top: 15, bottom: 8),
               child: Text(
@@ -137,9 +145,52 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
       });
   }
 
-  Widget MyFormField(String key, String hint) {
+  Widget MyFormField(
+    String key,
+    String hint,
+  ) {
     return TextFormField(
-      decoration: InputDecoration(hintStyle: kHintTextStyle, labelText: hint),
+      decoration: InputDecoration(
+        hintStyle: kHintTextStyle,
+        labelText: hint,
+      ),
+      onChanged: (value) => demandeData[key] = value,
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Champ Obligatoire !';
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget MyFormFieldMap(
+      String key, String hint, TextEditingController controller) {
+    return TextFormField(
+      onTap: () => {},
+      controller: controller,
+      decoration: InputDecoration(
+        enabled: true,
+        suffixIcon: IconButton(
+          icon: Icon(Icons.place_outlined),
+          onPressed: () async {
+            info = await Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    fullscreenDialog: true, builder: (context) => MapScreen()));
+
+            setState(() {
+              //controller.text = info.first.addressLine;
+              controller.value = TextEditingValue(
+                  text: info.first.addressLine
+                      .toString()
+                      .replaceAll("Unnamed Road, ", ""));
+            });
+          },
+        ),
+        hintStyle: kHintTextStyle,
+        labelText: hint,
+      ),
       onChanged: (value) => demandeData[key] = value,
       validator: (value) {
         if (value.isEmpty) {

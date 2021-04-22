@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<key>io.flutter.embedded_views_preview</key>
+<true/>
+<key>MGLMapboxAccessToken</key>
+<string>sk.eyJ1IjoiYmVuc2VsZW1tb2V6IiwiYSI6ImNrbnM0bzF1MjAwczAycXBkeTgwODhrcXMifQ.RQkcO6VELTmKMaw_EHnaMg</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
