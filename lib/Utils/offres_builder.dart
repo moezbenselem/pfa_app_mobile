@@ -11,13 +11,14 @@ import 'api_config.dart';
 
 class OffresBuilder extends StatelessWidget {
   final User user;
+  final String filtre;
 
-  OffresBuilder({@required this.user});
+  OffresBuilder({@required this.user, this.filtre});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Offres>(
-        future: fetchOffres(user),
+        future: fetchOffres(user, filtre),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             print(snapshot.error);
@@ -37,10 +38,12 @@ class OffresBuilder extends StatelessWidget {
         });
   }
 
-  Future<Offres> fetchOffres(User user) async {
+  Future<Offres> fetchOffres(User user, String filtre) async {
     var token = user.token;
+    filtre = filtre.replaceAll("é", "e").replaceAll(' ', '').toLowerCase();
+    print('fetching ${filtre}');
     http.Response response = await http.get(
-      Uri.http(apiBaseUrl, 'offres/' + user.id.toString()),
+      Uri.http(apiBaseUrl, 'offres/' + user.id.toString() + "/" + filtre),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
@@ -54,7 +57,8 @@ class OffresBuilder extends StatelessWidget {
         Exception.toString();
       }
     } else {
-      print("cant load demandes !");
+      print("cant load offres !");
+      print(response.body);
     }
   }
 }

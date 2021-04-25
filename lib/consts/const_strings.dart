@@ -12,3 +12,8 @@ final USER_EMPLOYEE = "Sous Compte";
 
 final USER_ROLE_CLIENT = "Client";
 final USER_ROLE_TRANSPORTEUR = "Transporteur";
+
+final TYPE_PAIEMENTS = [
+  {"id": 1, "titre": 'Chèque'},
+  {"id": 2, "titre": 'Espèses'},
+];

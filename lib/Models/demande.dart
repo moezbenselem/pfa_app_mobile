@@ -4,12 +4,24 @@ import 'package:json_annotation/json_annotation.dart';
 class Demande {
   int id;
   String depart, destination, description, suivie;
+  double latDepart, latDest, longDest, longDepart;
   String date;
   bool etat;
   int userId;
 
-  Demande(this.id, this.depart, this.destination, this.description, this.suivie,
-      this.date, this.etat, this.userId);
+  Demande(
+      this.id,
+      this.depart,
+      this.destination,
+      this.description,
+      this.suivie,
+      this.latDepart,
+      this.latDest,
+      this.longDest,
+      this.longDepart,
+      this.date,
+      this.etat,
+      this.userId);
 
   factory Demande.fromJson(Map<String, dynamic> demande) {
     return Demande(
@@ -18,6 +30,10 @@ class Demande {
         demande['destination'],
         demande['description'],
         demande['suivie'],
+        demande['departLat'],
+        demande['destinationLat'],
+        demande['destinationLong'],
+        demande['departLong'],
         demande['date'],
         demande['etat'],
         demande['UserId']);

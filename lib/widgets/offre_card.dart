@@ -1,11 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pfa_app/Models/User.dart';
 import 'package:pfa_app/Models/offre.dart';
-import 'package:pfa_app/consts/constants.dart';
 
 class OffreCard extends StatelessWidget {
   OffreCard({@required this.data, @required this.height});
-
+  User user;
   final Offre data;
   final double height;
 
@@ -29,7 +31,7 @@ class OffreCard extends StatelessWidget {
                 ),
                 Container(
                   width: myWidth * 0.50,
-                  height: 100,
+                  height: 120,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -68,7 +70,9 @@ class OffreCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Icon(Icons.info_outline),
+                      IconButton(
+                        icon: Icon(Icons.info_outline),
+                      ),
                       Text(
                         data.etat,
                         style: TextStyle(

@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:http/http.dart' as http;
 import 'package:pfa_app/Models/User.dart';
+import 'package:pfa_app/Utils/api_config.dart';
 import 'package:pfa_app/consts/constants.dart';
 import 'package:pfa_app/screens/map.dart';
 
@@ -21,16 +25,30 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
   DateTime selectedDate = DateTime.now();
   var demandeData = {};
   var typeBagages = [
-    {"id": 1, "titre": 'Fragile'},
-    {"id": 2, "titre": 'Electronique'},
-    {"id": 3, "titre": 'Emeuble'}
+    {"bagageId": 1, "titre": 'Fragile'},
+    {"bagageId": 2, "titre": 'Electronique'},
+    {"bagageId": 3, "titre": 'Emeuble'}
   ];
   var typePaiements = [
     {"id": 1, "titre": 'Chèque'},
     {"id": 2, "titre": 'Espèses'},
   ];
-  var selectedBagages = {};
+  bool chkFragile = false;
+  bool chkElect = false;
+  bool chkEm = false;
+  List<dynamic> selectedBagages = [];
+  int _radioValue = 0;
+
   var selectedPaiement = null;
+
+  void _handleRadioValueChange(int value) {
+    setState(() {
+      _radioValue = value;
+      selectedPaiement = typePaiements[value - 1];
+    });
+  }
+
+  Coordinates departCords, destCords;
 
   TextEditingController departController = new TextEditingController();
   TextEditingController destinationcontroller = new TextEditingController();
@@ -58,9 +76,9 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
                 style: kFormLabelTextStyle,
               ),
             ),
-            MyCheckBox(typeBagages[0]),
-            MyCheckBox(typeBagages[1]),
-            MyCheckBox(typeBagages[2]),
+            MyCheckBox(typeBagages[0]['titre'], false),
+            MyCheckBox(typeBagages[1]['titre'], false),
+            MyCheckBox(typeBagages[2]['titre'], false),
             Padding(
               padding: const EdgeInsets.only(top: 15, bottom: 8),
               child: Text(
@@ -68,8 +86,8 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
                 style: kFormLabelTextStyle,
               ),
             ),
-            MyRadio(typePaiements[0]),
-            MyRadio(typePaiements[1]),
+            MyRadio(typePaiements[0], 1),
+            MyRadio(typePaiements[1], 2),
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: Text(
@@ -102,7 +120,7 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
                 width: myWidth * 0.7,
                 height: myWidth * 0.12,
                 child: ElevatedButton(
-                  onPressed: () => {},
+                  onPressed: () => {submitForm()},
                   child: Text(
                     "Ajouter",
                     style: TextStyle(
@@ -180,7 +198,18 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
                     fullscreenDialog: true, builder: (context) => MapScreen()));
 
             setState(() {
-              //controller.text = info.first.addressLine;
+              if (key == 'destination') {
+                destCords = info.first.coordinates;
+                demandeData[key] = info.first.addressLine
+                    .toString()
+                    .replaceAll("Unnamed Road, ", "");
+              } else {
+                demandeData[key] = info.first.addressLine
+                    .toString()
+                    .replaceAll("Unnamed Road, ", "");
+                departCords = info.first.coordinates;
+              }
+
               controller.value = TextEditingValue(
                   text: info.first.addressLine
                       .toString()
@@ -201,7 +230,10 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
     );
   }
 
-  Widget MyCheckBox(bagage) {
+  Widget MyCheckBox(titre, isChecked) {
+    if (titre == typeBagages[0]['titre']) isChecked = chkFragile;
+    if (titre == typeBagages[1]['titre']) isChecked = chkElect;
+    if (titre == typeBagages[2]['titre']) isChecked = chkEm;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: Container(
@@ -211,18 +243,41 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
             Theme(
               data: ThemeData(unselectedWidgetColor: Colors.white),
               child: Checkbox(
-                value: selectedBagages[bagage['id']] != null,
+                value: isChecked,
                 checkColor: Colors.white,
                 activeColor: Colors.red,
                 onChanged: (value) {
                   setState(() {
-                    selectedBagages[bagage['id']] = bagage.id;
+                    if (titre == typeBagages[0]['titre']) {
+                      chkFragile = value;
+                      value
+                          ? selectedBagages
+                              .add({'bagageId': typeBagages[0]["bagageId"]})
+                          : selectedBagages
+                              .remove({'bagageId': typeBagages[0]["bagageId"]});
+                    }
+                    if (titre == typeBagages[1]['titre']) {
+                      chkElect = value;
+                      value
+                          ? selectedBagages
+                              .add({'bagageId': typeBagages[1]["bagageId"]})
+                          : selectedBagages
+                              .remove({'bagageId': typeBagages[1]["bagageId"]});
+                    }
+                    if (titre == typeBagages[2]['titre']) {
+                      chkEm = value;
+                      value
+                          ? selectedBagages
+                              .add({'bagageId': typeBagages[2]["bagageId"]})
+                          : selectedBagages
+                              .remove({'bagageId': typeBagages[2]["bagageId"]});
+                    }
                   });
                 },
               ),
             ),
             Text(
-              bagage["titre"],
+              titre,
               style: kHintTextStyle,
             ),
           ],
@@ -231,7 +286,7 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
     );
   }
 
-  Widget MyRadio(paiement) {
+  Widget MyRadio(paiement, val) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: Container(
@@ -239,13 +294,16 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
         child: Row(
           children: <Widget>[
             Theme(
-              data: ThemeData(unselectedWidgetColor: Colors.white),
+              data: ThemeData(
+                unselectedWidgetColor: Colors.white,
+              ),
               child: Radio(
-                value: selectedPaiement == paiement['id'],
+                value: val,
+                groupValue: _radioValue,
                 activeColor: Colors.red,
                 onChanged: (value) {
                   setState(() {
-                    selectedPaiement = paiement['id'];
+                    _handleRadioValueChange(value);
                   });
                 },
               ),
@@ -258,5 +316,32 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
         ),
       ),
     );
+  }
+
+  submitForm() async {
+    print(selectedBagages);
+    http.Response response = await http.post(
+      Uri.http(apiBaseUrl, '/demande'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${user.token}',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "depart": demandeData['depart'],
+        "destination": demandeData['destination'],
+        "departLong": departCords.longitude,
+        "destinationLong": destCords.longitude,
+        "departLat": departCords.latitude,
+        "destinationLat": destCords.latitude,
+        "description": demandeData['description'],
+        "date": selectedDate.toLocal().toString().split(' ')[0],
+        "userId": user.id,
+        "paiementId": selectedPaiement['id'],
+        "suivie": "en cours",
+        "etat": false,
+        "types_bagages": selectedBagages
+      }),
+    );
+    print(response.body);
   }
 }

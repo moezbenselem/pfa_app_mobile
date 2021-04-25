@@ -167,6 +167,7 @@ class _MapScreenState extends State<MapScreen> {
   searchLocation(String value) async {
     var addresses = await Geocoder.local.findAddressesFromQuery(value);
     var first = addresses.first;
+
     searchPosition = CameraPosition(
         target: LatLng(first.coordinates.latitude, first.coordinates.longitude),
         zoom: 16);

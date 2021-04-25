@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +7,7 @@ import 'package:pfa_app/Utils/api_config.dart';
 import 'package:pfa_app/consts/const_strings.dart';
 import 'package:pfa_app/consts/constants.dart';
 import 'package:pfa_app/screens/ajout_demande.dart';
+import 'package:pfa_app/screens/consulter_demandes.dart';
 import 'package:pfa_app/screens/login.dart';
 import 'package:pfa_app/screens/mes_demandes.dart';
 import 'package:pfa_app/screens/mes_offres.dart';
@@ -28,7 +26,7 @@ class Accueil extends StatefulWidget {
 
   final drawerItems = [
     new DrawerItem("Crée une Demande", Icons.create_new_folder_rounded),
-    new DrawerItem("Crée une Offre", Icons.create_new_folder_rounded),
+    new DrawerItem("Consulter Demandes", Icons.create_new_folder_rounded),
     new DrawerItem("Mes Demandes", Icons.emoji_transportation),
     new DrawerItem("Mes Offres", Icons.emoji_transportation),
     new DrawerItem("Mes Commandes", Icons.content_paste_rounded),
@@ -49,7 +47,7 @@ class Accueil extends StatefulWidget {
 class _AccueilState extends State<Accueil> {
   User user;
   String title = "TranspApp";
-  int selectedNav = 0;
+  int selectedNav = null;
 
   _AccueilState(this.user) {}
 
@@ -58,6 +56,8 @@ class _AccueilState extends State<Accueil> {
       case 0:
         return AjoutDemandeScreen(user);
         break;
+      case 1:
+        return ConsulterDemandes(user);
       case 3:
         return MesOffresScreen(user);
         break;
@@ -107,6 +107,10 @@ class _AccueilState extends State<Accueil> {
     List<Widget> drawerOptions = [];
 
     if (user.role.toLowerCase() == USER_ROLE_CLIENT.toLowerCase()) {
+      if (selectedNav == null)
+        setState(() {
+          selectedNav = 2;
+        });
       var d = widget.drawerItems[0];
       drawerOptions.add(new ListTile(
         leading: new Icon(d.icon),
@@ -128,7 +132,12 @@ class _AccueilState extends State<Accueil> {
         selected: 2 == selectedNav,
         onTap: () => _onSelectItem(2),
       ));
-    } else if (user.role.toLowerCase() == "transporteur") {
+    }
+    if (user.role.toLowerCase() == USER_ROLE_TRANSPORTEUR.toLowerCase()) {
+      if (selectedNav == null)
+        setState(() {
+          selectedNav = 3;
+        });
       var d = widget.drawerItems[1];
       drawerOptions.add(new ListTile(
         leading: new Icon(d.icon),

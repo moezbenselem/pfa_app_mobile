@@ -20,12 +20,12 @@ const kLabelTextStyle = TextStyle(
   color: Color(0xFF8D8E98),
 );
 
-const kMovieDetails = TextStyle(
-  fontSize: 13,
-  fontWeight: FontWeight.w300,
-  color: Color(0xFF8D8E98),
-);
-
+const kDistanceStyle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w300,
+    color: Color(0xFF8D8E98),
+    backgroundColor: Colors.white54,
+    letterSpacing: 0.2);
 const kMovieTitle = TextStyle(
   fontSize: 25,
   fontWeight: FontWeight.w300,
