@@ -47,10 +47,10 @@ Timer _timer;
 
 void startTimer(User u) {
   print("timer started");
-  const oneSec = const Duration(minutes: 14);
+  const delay = const Duration(minutes: 14);
   if (_timer == null) {
     _timer = new Timer.periodic(
-      oneSec,
+      delay,
       (Timer timer) {
         print("tick");
         refreshToken(u);

@@ -52,6 +52,7 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
 
   TextEditingController departController = new TextEditingController();
   TextEditingController destinationcontroller = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
 
   _AjoutDemandeScreenState(this.user);
 
@@ -65,7 +66,7 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MyFormField("description", "Description :"),
+            MyFormField("description", "Description :", descriptionController),
             MyFormFieldMap("depart", "Départ :", departController),
             MyFormFieldMap(
                 "destination", "Destination :", destinationcontroller),
@@ -164,10 +165,9 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
   }
 
   Widget MyFormField(
-    String key,
-    String hint,
-  ) {
+      String key, String hint, TextEditingController controller) {
     return TextFormField(
+      controller: controller,
       decoration: InputDecoration(
         hintStyle: kHintTextStyle,
         labelText: hint,
@@ -343,5 +343,43 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
       }),
     );
     print(response.body);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Success !'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Offre Postulée !'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () {
+                setState(() {
+                  demandeData = {};
+                  _radioValue = 0;
+                  chkFragile = false;
+                  chkElect = false;
+                  chkEm = false;
+                  selectedBagages = [];
+                  info = null;
+                  departure = '';
+                  destination = '';
+                  selectedDate = DateTime.now();
+                  departController.text = "";
+                  destinationcontroller.text = "";
+                  descriptionController.text = "";
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

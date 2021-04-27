@@ -8,7 +8,8 @@ class Demande {
   String date;
   bool etat;
   int userId;
-
+  List<String> bagages;
+  int idPaiement;
   Demande(
       this.id,
       this.depart,

@@ -32,7 +32,6 @@ class DemandesBuilder extends StatelessWidget {
                   return DemandeCard(
                     data: snapshot.data.listDemandes[index],
                     height: 200,
-                    showActions: true,
                   );
                 });
           else

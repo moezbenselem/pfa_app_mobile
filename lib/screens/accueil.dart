@@ -11,6 +11,7 @@ import 'package:pfa_app/screens/consulter_demandes.dart';
 import 'package:pfa_app/screens/login.dart';
 import 'package:pfa_app/screens/mes_demandes.dart';
 import 'package:pfa_app/screens/mes_offres.dart';
+import 'package:pfa_app/screens/offres_recus.dart';
 import 'package:pfa_app/screens/profile.dart';
 
 class DrawerItem {
@@ -29,7 +30,7 @@ class Accueil extends StatefulWidget {
     new DrawerItem("Consulter Demandes", Icons.create_new_folder_rounded),
     new DrawerItem("Mes Demandes", Icons.emoji_transportation),
     new DrawerItem("Mes Offres", Icons.emoji_transportation),
-    new DrawerItem("Mes Commandes", Icons.content_paste_rounded),
+    new DrawerItem("Offres Reçus", Icons.content_paste_rounded),
     new DrawerItem("Mon Compte", Icons.account_circle),
     new DrawerItem("Déconnecter", Icons.logout)
   ];
@@ -58,11 +59,15 @@ class _AccueilState extends State<Accueil> {
         break;
       case 1:
         return ConsulterDemandes(user);
-      case 3:
-        return MesOffresScreen(user);
         break;
       case 2:
         return MesDemandesScreen(user);
+        break;
+      case 3:
+        return MesOffresScreen(user);
+        break;
+      case 4:
+        return OffresRecusScreen(user);
         break;
       case 5:
         return ProfilePage(user);

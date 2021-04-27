@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="info" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d109582-cb81-40fe-82f4-33fc046e1cf7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/screens/consulter_demandes.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Utils/offres_recus_builder.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/offres_recus.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/signup.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/demande_details_card.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/widgets/offre_recu_card.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/Models/demande.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Models/demande.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Models/offre.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Models/offre.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/Utils/demandes_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Utils/demandes_builder.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Utils/offres_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Utils/offres_builder.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/consts/const_strings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/consts/const_strings.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/consts/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/consts/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/accueil.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/accueil.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/ajout_demande.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/ajout_demande.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/map.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/map.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/mes_demandes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/mes_demandes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/mes_offres.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/mes_offres.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/login.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/widgets/demande_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/demande_card.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/offre_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/offre_card.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
