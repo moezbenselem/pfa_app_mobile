@@ -2,11 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:pfa_app/Models/User.dart';
+import 'package:pfa_app/Models/demande.dart';
 import 'package:pfa_app/Models/offre.dart';
+import 'package:pfa_app/screens/details.dart';
+import 'package:pfa_app/services.dart';
 
 class OffreCard extends StatelessWidget {
-  OffreCard({@required this.data, @required this.height});
+  OffreCard({@required this.user, @required this.data, @required this.height});
   User user;
   final Offre data;
   final double height;
@@ -70,8 +74,40 @@ class OffreCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      IconButton(
+                      PopupMenuButton(
                         icon: Icon(Icons.info_outline),
+                        onSelected: (selected) async {
+                          if (selected == 0) {
+                            var d = await fetchDemandeDetails(
+                                user.token, data.demandeId.toString());
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailsScreen(Demande.fromJson(d));
+                            }));
+                          }
+                          if (selected == 2) {
+                            var d = await fetchDemandeDetails(
+                                user.token, data.demandeId.toString());
+                            var u = await fetchUserInfo(
+                                user.token, d['userId'].toString());
+                            _callNumber(u['tel']);
+                          }
+                        },
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<int>>[
+                          const PopupMenuItem<int>(
+                            value: 0,
+                            child: Text('Voir Demande'),
+                          ),
+                          const PopupMenuItem<int>(
+                            value: 1,
+                            child: Text('Supprimer Offre'),
+                          ),
+                          const PopupMenuItem<int>(
+                            value: 2,
+                            child: Text('Appeler'),
+                          ),
+                        ],
                       ),
                       Text(
                         data.etat,
@@ -88,5 +124,9 @@ class OffreCard extends StatelessWidget {
             ),
           )),
     );
+  }
+
+  _callNumber(number) async {
+    bool res = await FlutterPhoneDirectCaller.callNumber(number);
   }
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:pfa_app/Models/User.dart';
+import 'package:pfa_app/Models/demande.dart';
 import 'package:pfa_app/Models/offre.dart';
+import 'package:pfa_app/screens/details.dart';
+import 'package:pfa_app/services.dart';
 
 class OffreRecuCard extends StatefulWidget {
-  OffreRecuCard({@required this.data, @required this.height});
+  OffreRecuCard(
+      {@required this.user, @required this.data, @required this.height});
 
   @override
   User user;
@@ -12,7 +17,7 @@ class OffreRecuCard extends StatefulWidget {
   final double height;
   bool showMore = false;
 
-  _OffresRecusCard createState() => _OffresRecusCard(data);
+  _OffresRecusCard createState() => _OffresRecusCard(user, data);
 }
 
 class _OffresRecusCard extends State<OffreRecuCard> {
@@ -20,7 +25,7 @@ class _OffresRecusCard extends State<OffreRecuCard> {
   final Offre data;
   bool showMore = false;
 
-  _OffresRecusCard(this.data);
+  _OffresRecusCard(this.user, this.data);
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +100,38 @@ class _OffresRecusCard extends State<OffreRecuCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      IconButton(
+                      PopupMenuButton(
                         icon: Icon(Icons.info_outline),
+                        onSelected: (selected) async {
+                          if (selected == 0) {
+                            var d = await fetchDemandeDetails(
+                                user.token, data.demandeId.toString());
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailsScreen(Demande.fromJson(d));
+                            }));
+                          }
+                          if (selected == 2) {
+                            var u = await fetchUserInfo(
+                                user.token, data.userId.toString());
+                            _callNumber(u['tel']);
+                          }
+                        },
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<int>>[
+                          const PopupMenuItem<int>(
+                            value: 0,
+                            child: Text('Voir Demande'),
+                          ),
+                          const PopupMenuItem<int>(
+                            value: 1,
+                            child: Text('Voir Profil'),
+                          ),
+                          const PopupMenuItem<int>(
+                            value: 2,
+                            child: Text('Appeler'),
+                          ),
+                        ],
                       ),
                       Text(
                         data.etat,
@@ -113,5 +148,9 @@ class _OffresRecusCard extends State<OffreRecuCard> {
             ),
           )),
     );
+  }
+
+  _callNumber(number) async {
+    bool res = await FlutterPhoneDirectCaller.callNumber(number);
   }
 }

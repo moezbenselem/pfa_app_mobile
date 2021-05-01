@@ -10,6 +10,7 @@ class Demande {
   int userId;
   List<String> bagages;
   int idPaiement;
+  Demande.forId(this.id);
   Demande(
       this.id,
       this.depart,

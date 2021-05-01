@@ -366,7 +366,7 @@ class _LoginScreenState extends State<LoginScreen> {
   _save(User user) async {
     sharedPref.save("user", user);
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return Accueil.forUser(user);
     }));
   }

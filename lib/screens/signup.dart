@@ -8,6 +8,7 @@ import 'package:pfa_app/Models/User.dart';
 import 'package:pfa_app/Utils/SharedPref.dart';
 import 'package:pfa_app/consts/const_strings.dart';
 import 'package:pfa_app/consts/constants.dart';
+import 'package:pfa_app/screens/login.dart';
 
 import '../Utils/api_config.dart';
 
@@ -18,18 +19,22 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   int _currentStep = 0;
-  String email = "",
-      password = "",
-      nom = "",
-      prenom = "",
-      cin = "",
-      code = "",
-      adresse = "",
-      tel = "",
-      description = "",
-      code_entreprise = "",
-      type = "",
-      role = "";
+  var user = {
+    "email": "",
+    "password": "",
+    "nom": "",
+    "prenom": null,
+    "cin": null,
+    "code": null,
+    "adresse": "",
+    "tel": "",
+    "description": "",
+    "code_entreprise": null,
+    "type": "",
+    "role": "",
+    "image": "link",
+    "verified": false
+  };
   bool obscured = true;
   SharedPref sharedPref = SharedPref();
 
@@ -95,7 +100,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           onStepContinue: () {
                             setState(() {
                               if (this._currentStep < _mySteps().length - 1) {
-                                _currentStep++;
+                                if (_currentStep != 1 ||
+                                    (_currentStep == 1 &&
+                                        _roleValue != 0 &&
+                                        _typeValue != 0)) _currentStep++;
                               } else {
                                 //Save Logic
                               }
@@ -135,8 +143,8 @@ class _SignupScreenState extends State<SignupScreen> {
         content: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _buildField(
-                "Email", Icon(Icons.email), TextInputType.emailAddress, email),
+            _buildField("Email", Icon(Icons.email), TextInputType.emailAddress,
+                "email"),
             _buildPasswordTF(),
           ],
         ),
@@ -177,22 +185,22 @@ class _SignupScreenState extends State<SignupScreen> {
           content:
               Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             _buildField("Nom", Icon(Icons.supervised_user_circle_outlined),
-                TextInputType.name, nom),
+                TextInputType.name, "nom"),
             if (_typeValue == 1)
               _buildField("Prenom", Icon(Icons.supervised_user_circle_rounded),
-                  TextInputType.name, prenom),
+                  TextInputType.name, "prenom"),
             if (_typeValue == 1)
-              _buildField(
-                  "CIN", Icon(Icons.perm_identity), TextInputType.number, cin),
+              _buildField("CIN", Icon(Icons.perm_identity),
+                  TextInputType.number, "cin"),
             if (_typeValue == 2)
               _buildField("Patente ", Icon(Icons.domain_verification),
-                  TextInputType.number, code),
+                  TextInputType.number, "code"),
             _buildField("Adresse", Icon(Icons.location_city),
-                TextInputType.streetAddress, adresse),
+                TextInputType.streetAddress, "adresse"),
             _buildField("Téléphone", Icon(Icons.phone_android),
-                TextInputType.number, tel),
+                TextInputType.number, "tel"),
             _buildField("Exprimer !", Icon(Icons.description),
-                TextInputType.text, description),
+                TextInputType.text, "description"),
           ]),
           isActive: _currentStep >= 2),
     ];
@@ -223,6 +231,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 onChanged: (value) {
                   setState(() {
                     _roleRadioValueChange(value);
+                    user['role'] = text;
                   });
                 },
               ),
@@ -263,6 +272,13 @@ class _SignupScreenState extends State<SignupScreen> {
                 onChanged: (value) {
                   setState(() {
                     _typeRadioValueChange(value);
+                    user['type'] = text;
+                    if (value == 1) {
+                      user["code"] = null;
+                    } else {
+                      user["cin"] = null;
+                      user["prenom"] = null;
+                    }
                   });
                 },
               ),
@@ -283,29 +299,36 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
-  Widget _buildField(hint, Icon icon, inputType, variable) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(bottom: 10),
-      decoration: kBoxDecorationStyle,
-      height: 60.0,
-      child: TextField(
-        textInputAction: TextInputAction.next,
-        keyboardType: inputType,
-        onChanged: (value) => variable = value,
-        style: TextStyle(
-          color: Colors.white,
-          fontFamily: 'OpenSans',
-        ),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.only(top: 14.0),
-          prefixIcon: icon,
-          hintText: hint,
-          hintStyle: kHintTextStyle,
-        ),
+  List<TextField> _listFields = [];
+
+  Widget _buildField(hint, Icon icon, inputType, key) {
+    TextField tf = TextField(
+      textInputAction: TextInputAction.next,
+      keyboardType: inputType,
+      onChanged: (value) {
+        setState(() {
+          user[key] = value;
+        });
+      },
+      style: TextStyle(
+        color: Colors.white,
+        fontFamily: 'OpenSans',
+      ),
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.only(top: 14.0),
+        prefixIcon: icon,
+        hintText: hint,
+        hintStyle: kHintTextStyle,
       ),
     );
+    _listFields.add(tf);
+    return Container(
+        alignment: Alignment.centerLeft,
+        margin: EdgeInsets.only(bottom: 10),
+        decoration: kBoxDecorationStyle,
+        height: 60.0,
+        child: tf);
   }
 
   Widget _buildPasswordTF() {
@@ -320,7 +343,11 @@ class _SignupScreenState extends State<SignupScreen> {
           child: TextField(
             textInputAction: TextInputAction.next,
             obscureText: obscured,
-            onChanged: (value) => password = value,
+            onChanged: (value) {
+              setState(() {
+                user['password'] = value;
+              });
+            },
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -366,7 +393,10 @@ class _SignupScreenState extends State<SignupScreen> {
       padding: EdgeInsets.only(top: 25.0, bottom: 5),
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          print(user);
+          _signup(user);
+        },
         style: ElevatedButton.styleFrom(
           primary: Colors.red[900],
           onPrimary: Colors.red[500],
@@ -407,14 +437,14 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Future<User> _login(String email, String password) async {
+  Future<User> _signup(user) async {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Connexion en cours...',
+            'Création en cours...',
             textAlign: TextAlign.center,
           ),
           content: SingleChildScrollView(
@@ -440,26 +470,76 @@ class _SignupScreenState extends State<SignupScreen> {
       },
     );
     http.Response response = await http.post(
-      Uri.http(apiBaseUrl, 'auth/login'),
+      Uri.http(apiBaseUrl, 'auth/signup'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(
-          <String, String>{'email': email.trim(), 'password': password}),
+      body: jsonEncode(user),
     );
     Map body = json.decode(response.body), info;
     //remove dialog
     Navigator.pop(context);
+    print(response.body);
+    print(response.statusCode);
+    bool success = body["sucess"];
+    if (success) {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Création Effectuée !'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text('Votre Compte a été créer !'),
+                    Text("Veillez se connecter !"),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    setState(() {
+                      user = {
+                        "email": "",
+                        "password": "",
+                        "nom": "",
+                        "prenom": null,
+                        "cin": null,
+                        "code": null,
+                        "adresse": "",
+                        "tel": "",
+                        "description": "",
+                        "code_entreprise": null,
+                        "type": "",
+                        "role": "",
+                        "image": "link",
+                        "verified": false
+                      };
 
-    if (response.statusCode == 200) {
-      info = body["data"];
-      User user = User.fromJson(info);
+                      _currentStep = 0;
+                      _roleValue = 0;
+                      _typeValue = 0;
+                      obscured = true;
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                        return LoginScreen();
+                      }));
+                    });
+
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
     } else {
       return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Connexion Echoué !'),
+            title: Text('Création Echoué !'),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[

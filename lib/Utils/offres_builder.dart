@@ -29,7 +29,9 @@ class OffresBuilder extends StatelessWidget {
                 itemCount: snapshot.data.listOffres.length,
                 itemBuilder: (context, index) {
                   return OffreCard(
-                      data: snapshot.data.listOffres[index], height: 200);
+                      user: user,
+                      data: snapshot.data.listOffres[index],
+                      height: 200);
                 });
           else
             return JumpingDotsProgressIndicator(
