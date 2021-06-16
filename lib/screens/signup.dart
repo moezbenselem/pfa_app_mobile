@@ -19,6 +19,9 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   int _currentStep = 0;
+  final _formKey1 = GlobalKey<FormState>();
+  final _formKey3 = GlobalKey<FormState>();
+
   var user = {
     "email": "",
     "password": "",
@@ -140,13 +143,16 @@ class _SignupScreenState extends State<SignupScreen> {
     List<Step> _steps = [
       Step(
         title: Text("Informations du Login"),
-        content: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            _buildField("Email", Icon(Icons.email), TextInputType.emailAddress,
-                "email"),
-            _buildPasswordTF(),
-          ],
+        content: Form(
+          key: _formKey1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              _buildField("Email", Icon(Icons.email),
+                  TextInputType.emailAddress, "email"),
+              _buildPasswordTF(),
+            ],
+          ),
         ),
         isActive: _currentStep >= 0,
       ),
@@ -182,26 +188,32 @@ class _SignupScreenState extends State<SignupScreen> {
           isActive: _currentStep >= 1),
       Step(
           title: Text("Information Personelles"),
-          content:
-              Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            _buildField("Nom", Icon(Icons.supervised_user_circle_outlined),
-                TextInputType.name, "nom"),
-            if (_typeValue == 1)
-              _buildField("Prenom", Icon(Icons.supervised_user_circle_rounded),
-                  TextInputType.name, "prenom"),
-            if (_typeValue == 1)
-              _buildField("CIN", Icon(Icons.perm_identity),
-                  TextInputType.number, "cin"),
-            if (_typeValue == 2)
-              _buildField("Patente ", Icon(Icons.domain_verification),
-                  TextInputType.number, "code"),
-            _buildField("Adresse", Icon(Icons.location_city),
-                TextInputType.streetAddress, "adresse"),
-            _buildField("Téléphone", Icon(Icons.phone_android),
-                TextInputType.number, "tel"),
-            _buildField("Exprimer !", Icon(Icons.description),
-                TextInputType.text, "description"),
-          ]),
+          content: Form(
+            key: _formKey3,
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              _buildField("Nom", Icon(Icons.supervised_user_circle_outlined),
+                  TextInputType.name, "nom"),
+              if (_typeValue == 1)
+                _buildField(
+                    "Prenom",
+                    Icon(Icons.supervised_user_circle_rounded),
+                    TextInputType.name,
+                    "prenom"),
+              if (_typeValue == 1)
+                _buildField("CIN", Icon(Icons.perm_identity),
+                    TextInputType.number, "cin"),
+              if (_typeValue == 2)
+                _buildField("Patente ", Icon(Icons.domain_verification),
+                    TextInputType.number, "code"),
+              _buildField("Adresse", Icon(Icons.location_city),
+                  TextInputType.streetAddress, "adresse"),
+              _buildField("Téléphone", Icon(Icons.phone_android),
+                  TextInputType.number, "tel"),
+              _buildField("Exprimer !", Icon(Icons.description),
+                  TextInputType.text, "description"),
+            ]),
+          ),
           isActive: _currentStep >= 2),
     ];
     return _steps;
@@ -299,16 +311,46 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
-  List<TextField> _listFields = [];
+  List<TextFormField> _listFields = [];
 
   Widget _buildField(hint, Icon icon, inputType, key) {
-    TextField tf = TextField(
+    TextFormField tf = TextFormField(
       textInputAction: TextInputAction.next,
       keyboardType: inputType,
       onChanged: (value) {
         setState(() {
           user[key] = value;
         });
+      },
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Champs Obligatoire !";
+        }
+        RegExp reg = RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+
+        if (hint == "Email" && !reg.hasMatch(value)) {
+          return "Email Invalide !";
+        }
+        if (hint == "Nom" && value.length < 3) {
+          return "Nom Invalide !";
+        }
+        if (hint == "Prenom" && value.length < 3) {
+          return "Prenom Invalide !";
+        }
+        if (hint == "CIN" && value.length != 8 && int.tryParse(value) == null) {
+          return "CIN Invalide !";
+        }
+        if (hint == "Patente" && value.length < 8) {
+          return "Patente Invalide !";
+        }
+        if (hint == "Adresse" && value.length < 3) {
+          return "Adresse Invalide !";
+        }
+        if (hint == "Téléphone" && (value.length != 8 || !validPhone(value))) {
+          return "Téléphone Invalide !";
+        }
+        return null;
       },
       style: TextStyle(
         color: Colors.white,
@@ -331,6 +373,14 @@ class _SignupScreenState extends State<SignupScreen> {
         child: tf);
   }
 
+  bool validPhone(p) {
+    int n = int.tryParse(p.toString().substring(0, 2));
+    if ((n >= 20 && n <= 29) || (n >= 90 && n <= 99) || (n >= 50 && n <= 59)) {
+      return true;
+    }
+    return false;
+  }
+
   Widget _buildPasswordTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -340,13 +390,19 @@ class _SignupScreenState extends State<SignupScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             textInputAction: TextInputAction.next,
             obscureText: obscured,
             onChanged: (value) {
               setState(() {
                 user['password'] = value;
               });
+            },
+            validator: (value) {
+              if (value == null || value.isEmpty)
+                return "Mot de Passe Obligatoire !";
+              if (value.length < 4) return "Mot de Passe trop court !";
+              return null;
             },
             style: TextStyle(
               color: Colors.white,
@@ -395,7 +451,8 @@ class _SignupScreenState extends State<SignupScreen> {
       child: ElevatedButton(
         onPressed: () {
           print(user);
-          _signup(user);
+          if (_formKey1.currentState.validate() &&
+              _formKey3.currentState.validate()) _signup(user);
         },
         style: ElevatedButton.styleFrom(
           primary: Colors.red[900],

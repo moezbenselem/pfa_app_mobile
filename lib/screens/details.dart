@@ -13,6 +13,7 @@ import 'package:pfa_app/Utils/SharedPref.dart';
 import 'package:pfa_app/Utils/api_config.dart';
 import 'package:pfa_app/consts/const_strings.dart';
 import 'package:pfa_app/consts/constants.dart';
+import 'package:pfa_app/screens/accueil.dart';
 import 'package:pfa_app/widgets/demande_details_card.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
@@ -50,6 +51,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   double prix;
   bool showMap = false;
   Timer _timer;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -189,11 +191,39 @@ class _DetailsScreenState extends State<DetailsScreen> {
       try {
         var o = jsonDecode(response.body);
         print("offre result : " + response.body);
-        return o;
+
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Offre Postulée !')));
       } catch (Exception) {
         Exception.toString();
       }
     } else {
+      Navigator.of(context).pop();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Opération Echoué !'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text("Votre Offre n'a pas été postuler !"),
+                  Text("Veillez ressayer !"),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Réessayer'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
       print("cant add offre !");
     }
   }
@@ -241,50 +271,62 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   return AlertDialog(
                     title: Text('Information'),
                     content: SingleChildScrollView(
-                      child: ListBody(
-                        children: <Widget>[
-                          TextFormField(
-                            decoration: InputDecoration(
-                              hintStyle: kHintTextStyle,
-                              labelText: "Votre Commentaire",
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                if (value.isEmpty)
-                                  cmnt = "Je suis d'accord !";
-                                else
+                      child: Form(
+                        key: _formKey,
+                        child: ListBody(
+                          children: <Widget>[
+                            TextFormField(
+                              decoration: InputDecoration(
+                                hintStyle: kHintTextStyle,
+                                labelText: "Votre Commentaire",
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+//                                if (value.isEmpty)
+//                                  cmnt = "Je suis d'accord !";
+//                                else
                                   cmnt = value;
-                              });
-                            },
-                            keyboardType: TextInputType.text,
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              hintStyle: kHintTextStyle,
-                              labelText: "Vos Charges en DT",
+                                });
+                              },
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value.isEmpty || value == null)
+                                  return "Champ Obligatoire !";
+                                return null;
+                              },
                             ),
-                            onChanged: (value) {
-                              setState(() {
-                                prix = double.parse(value);
-                              });
-                            },
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Champ Obligatoire !';
-                              }
-                              return null;
-                            },
-                          )
-                        ],
+                            TextFormField(
+                              decoration: InputDecoration(
+                                hintStyle: kHintTextStyle,
+                                labelText: "Vos Charges en DT",
+                              ),
+                              onChanged: (value) {
+                                if (double.tryParse(value) != null)
+                                  setState(() {
+                                    prix = double.parse(value);
+                                  });
+                              },
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value.isEmpty || value == null) {
+                                  return 'Champ Obligatoire !';
+                                }
+                                if (double.tryParse(value) == null ||
+                                    double.tryParse(value) < 0) {
+                                  return 'Prix Invalide !';
+                                }
+                                return null;
+                              },
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     actions: <Widget>[
                       TextButton(
                         child: Text('Envoyer'),
                         onPressed: () {
-                          sendOffre();
-                          Navigator.of(context).pop();
+                          if (_formKey.currentState.validate()) sendOffre();
                         },
                       ),
                     ],
@@ -326,7 +368,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   child: new Text("Delete"),
                   textColor: Colors.grey[900],
                   color: Colors.red,
-                  onPressed: () {},
+                  onPressed: () {
+                    deleteDemande(user.id, data.id);
+                  },
                   shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(20.0)),
                 )),
@@ -336,5 +380,115 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ],
         ),
       );
+  }
+
+  deleteDemande(userId, demandeId) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmation'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child:
+                      Text("Vous ètes sur le point de supprimer une demande !"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Continuer !"),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text("J'accepte"),
+              style: TextButton.styleFrom(
+                  primary: Colors.white, backgroundColor: Colors.green),
+              onPressed: () async {
+                String token = user.token;
+                http.Response response = await http.delete(
+                  Uri.http(apiBaseUrl, 'demande'),
+                  headers: <String, String>{
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Authorization': 'Bearer $token',
+                  },
+                  body: jsonEncode(<String, dynamic>{
+                    'userId': userId,
+                    'demandeId': demandeId
+                  }),
+                );
+                if (response.statusCode == 200) {
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Opération éffectuée !'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text("Demande Supprimée !"),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Ok'),
+                            onPressed: () {
+                              //Navigator.of(context).pop();
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return Accueil.forUser(user);
+                              }));
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Opération Echoué !'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text("Veillez ressayer !"),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Réessayer'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+            TextButton(
+              child: Text("Annuler"),
+              style: TextButton.styleFrom(
+                  primary: Colors.white, backgroundColor: Colors.deepOrange),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

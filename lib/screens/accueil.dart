@@ -8,6 +8,7 @@ import 'package:pfa_app/consts/const_strings.dart';
 import 'package:pfa_app/consts/constants.dart';
 import 'package:pfa_app/screens/ajout_demande.dart';
 import 'package:pfa_app/screens/consulter_demandes.dart';
+import 'package:pfa_app/screens/create_accounts.dart';
 import 'package:pfa_app/screens/login.dart';
 import 'package:pfa_app/screens/mes_demandes.dart';
 import 'package:pfa_app/screens/mes_offres.dart';
@@ -31,6 +32,7 @@ class Accueil extends StatefulWidget {
     new DrawerItem("Mes Demandes", Icons.emoji_transportation),
     new DrawerItem("Mes Offres", Icons.emoji_transportation),
     new DrawerItem("Offres Reçus", Icons.content_paste_rounded),
+    new DrawerItem("Créer des Comptes", Icons.accessibility_new),
     new DrawerItem("Mon Compte", Icons.account_circle),
     new DrawerItem("Déconnecter", Icons.logout)
   ];
@@ -70,6 +72,9 @@ class _AccueilState extends State<Accueil> {
         return OffresRecusScreen(user);
         break;
       case 5:
+        return CreateAccountScreen(user);
+        break;
+      case 6:
         return ProfilePage(user);
         break;
     }
@@ -77,7 +82,7 @@ class _AccueilState extends State<Accueil> {
 
   _onSelectItem(int index) async {
     try {
-      if (index == 6) {
+      if (index == 7) {
         var token = user.token;
         SharedPref sharedPrefs = SharedPref();
         http.Response response = await http.post(
@@ -137,36 +142,72 @@ class _AccueilState extends State<Accueil> {
         selected: 2 == selectedNav,
         onTap: () => _onSelectItem(2),
       ));
+
+      d = widget.drawerItems[4];
+      drawerOptions.add(new ListTile(
+        leading: new Icon(d.icon),
+        title: new Text(
+          d.title,
+          style: kDrawerItem,
+        ),
+        selected: 4 == selectedNav,
+        onTap: () => _onSelectItem(4),
+      ));
     }
     if (user.role.toLowerCase() == USER_ROLE_TRANSPORTEUR.toLowerCase()) {
       if (selectedNav == null)
         setState(() {
           selectedNav = 3;
         });
-      var d = widget.drawerItems[1];
-      drawerOptions.add(new ListTile(
-        leading: new Icon(d.icon),
-        title: new Text(
-          d.title,
-          style: kDrawerItem,
-        ),
-        selected: 1 == selectedNav,
-        onTap: () => _onSelectItem(1),
-      ));
+      if (user.type.toLowerCase() == USER_EMPLOYEE.toLowerCase()) {
+        var d = widget.drawerItems[3];
+        drawerOptions.add(new ListTile(
+          leading: new Icon(d.icon),
+          title: new Text(
+            d.title,
+            style: kDrawerItem,
+          ),
+          selected: 3 == selectedNav,
+          onTap: () => _onSelectItem(3),
+        ));
+      } else {
+        var d = widget.drawerItems[1];
+        drawerOptions.add(new ListTile(
+          leading: new Icon(d.icon),
+          title: new Text(
+            d.title,
+            style: kDrawerItem,
+          ),
+          selected: 1 == selectedNav,
+          onTap: () => _onSelectItem(1),
+        ));
 
-      d = widget.drawerItems[3];
-      drawerOptions.add(new ListTile(
-        leading: new Icon(d.icon),
-        title: new Text(
-          d.title,
-          style: kDrawerItem,
-        ),
-        selected: 3 == selectedNav,
-        onTap: () => _onSelectItem(3),
-      ));
+        d = widget.drawerItems[3];
+        drawerOptions.add(new ListTile(
+          leading: new Icon(d.icon),
+          title: new Text(
+            d.title,
+            style: kDrawerItem,
+          ),
+          selected: 3 == selectedNav,
+          onTap: () => _onSelectItem(3),
+        ));
+      }
+      if (user.type.toLowerCase() == USER_ENTREPRISE.toLowerCase()) {
+        var d = widget.drawerItems[5];
+        drawerOptions.add(new ListTile(
+          leading: new Icon(d.icon),
+          title: new Text(
+            d.title,
+            style: kDrawerItem,
+          ),
+          selected: 5 == selectedNav,
+          onTap: () => _onSelectItem(5),
+        ));
+      }
     }
 
-    for (var i = 4; i < widget.drawerItems.length; i++) {
+    for (var i = 6; i < widget.drawerItems.length; i++) {
       var d = widget.drawerItems[i];
       drawerOptions.add(new ListTile(
         leading: new Icon(d.icon),
@@ -196,7 +237,11 @@ class _AccueilState extends State<Accueil> {
           children: <Widget>[
             new UserAccountsDrawerHeader(
               accountName: Text(
-                this.user.nom.toString() + ' ' + this.user.prenom.toString(),
+                this.user.nom.toString() +
+                    ' ' +
+                    (this.user.prenom != null
+                        ? this.user.prenom.toString()
+                        : ''),
                 style: kDrawerStyle,
               ),
               accountEmail: Text(

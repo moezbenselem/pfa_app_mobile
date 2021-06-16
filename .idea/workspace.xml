@@ -6,20 +6,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d109582-cb81-40fe-82f4-33fc046e1cf7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/create_accounts.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Models/demande.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Models/demande.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Utils/offres_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Utils/offres_builder.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Utils/offres_recus_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Utils/offres_recus_builder.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/accueil.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/accueil.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/ajout_demande.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/ajout_demande.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/mes_offres.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/mes_offres.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/profile.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/signup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/signup.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/demande_details_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/demande_details_card.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/widgets/offre_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/offre_card.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/widgets/offre_recu_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/offre_recu_card.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +41,7 @@
   <component name="PropertiesComponent">
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/templates/tp cordova/app_cordova/platforms/android" />
     <property name="settings.editor.selected.configurable" value="experimental" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>

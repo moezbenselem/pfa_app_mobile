@@ -59,93 +59,100 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
   @override
   Widget build(BuildContext context) {
     double myWidth = MediaQuery.of(context).size.width;
+    final _formKey = GlobalKey<FormState>();
+
     return Container(
       margin: EdgeInsets.only(top: 0, bottom: 0, right: 5, left: 5),
       child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MyFormField("description", "Description :", descriptionController),
-            MyFormFieldMap("depart", "Départ :", departController),
-            MyFormFieldMap(
-                "destination", "Destination :", destinationcontroller),
-            Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 8),
-              child: Text(
-                "Types de Bagages :",
-                style: kFormLabelTextStyle,
-              ),
-            ),
-            MyCheckBox(typeBagages[0]['titre'], false),
-            MyCheckBox(typeBagages[1]['titre'], false),
-            MyCheckBox(typeBagages[2]['titre'], false),
-            Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 8),
-              child: Text(
-                "Types de Paiement :",
-                style: kFormLabelTextStyle,
-              ),
-            ),
-            MyRadio(typePaiements[0], 1),
-            MyRadio(typePaiements[1], 2),
-            Padding(
-              padding: const EdgeInsets.only(top: 15),
-              child: Text(
-                "Date de Départ",
-                style: kFormLabelTextStyle,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: Center(
-                child: TextButton.icon(
-                  label: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                  ),
-                  icon: Text(
-                    "${selectedDate.toLocal()}".split(' ')[0],
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w100,
-                        fontFamily: 'OpenSans',
-                        fontSize: 18.0),
-                  ),
-                  onPressed: () => _selectDate(context),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              MyFormField(
+                  "description", "Description :", descriptionController),
+              MyFormFieldMap("depart", "Départ :", departController),
+              MyFormFieldMap(
+                  "destination", "Destination :", destinationcontroller),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 8),
+                child: Text(
+                  "Types de Bagages :",
+                  style: kFormLabelTextStyle,
                 ),
               ),
-            ),
-            Center(
-              child: Container(
-                width: myWidth * 0.7,
-                height: myWidth * 0.12,
-                child: ElevatedButton(
-                  onPressed: () => {submitForm()},
-                  child: Text(
-                    "Ajouter",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w100,
-                        fontFamily: 'OpenSans',
-                        fontSize: 18.0),
+              MyCheckBox(typeBagages[0]['titre'], false),
+              MyCheckBox(typeBagages[1]['titre'], false),
+              MyCheckBox(typeBagages[2]['titre'], false),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 8),
+                child: Text(
+                  "Types de Paiement :",
+                  style: kFormLabelTextStyle,
+                ),
+              ),
+              MyRadio(typePaiements[0], 1),
+              MyRadio(typePaiements[1], 2),
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Text(
+                  "Date de Départ",
+                  style: kFormLabelTextStyle,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: Center(
+                  child: TextButton.icon(
+                    label: Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                    ),
+                    icon: Text(
+                      "${selectedDate.toLocal()}".split(' ')[0],
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w100,
+                          fontFamily: 'OpenSans',
+                          fontSize: 18.0),
+                    ),
+                    onPressed: () => _selectDate(context),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red[900],
-                    onPrimary: Colors.red[500],
-                    elevation: 5.0,
-                    padding: EdgeInsets.all(10.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+              Center(
+                child: Container(
+                  width: myWidth * 0.7,
+                  height: myWidth * 0.12,
+                  child: ElevatedButton(
+                    onPressed: () =>
+                        {if (_formKey.currentState.validate()) submitForm()},
+                    child: Text(
+                      "Ajouter",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w100,
+                          fontFamily: 'OpenSans',
+                          fontSize: 18.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red[900],
+                      onPrimary: Colors.red[500],
+                      elevation: 5.0,
+                      padding: EdgeInsets.all(10.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            )
-          ],
+              SizedBox(
+                height: 20,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -154,8 +161,8 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
   _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate, // Refer step 1
-      firstDate: DateTime(2000),
+      initialDate: selectedDate,
+      firstDate: DateTime(2021),
       lastDate: DateTime(2025),
     );
     if (picked != null && picked != selectedDate)
@@ -174,7 +181,7 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
       ),
       onChanged: (value) => demandeData[key] = value,
       validator: (value) {
-        if (value.isEmpty) {
+        if (value.isEmpty || value == null) {
           return 'Champ Obligatoire !';
         }
         return null;
@@ -203,10 +210,16 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
                 demandeData[key] = info.first.addressLine
                     .toString()
                     .replaceAll("Unnamed Road, ", "");
+                demandeData[key] = info.first.addressLine
+                    .toString()
+                    .replaceAll("Unnamed Road، ", "");
               } else {
                 demandeData[key] = info.first.addressLine
                     .toString()
                     .replaceAll("Unnamed Road, ", "");
+                demandeData[key] = info.first.addressLine
+                    .toString()
+                    .replaceAll("Unnamed Road، ", "");
                 departCords = info.first.coordinates;
               }
 
@@ -351,7 +364,7 @@ class _AjoutDemandeScreenState extends State<AjoutDemandeScreen> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Offre Postulée !'),
+                Text('Demande Publiée !'),
               ],
             ),
           ),

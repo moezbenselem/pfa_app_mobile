@@ -38,60 +38,62 @@ class DemandeDetailsCard extends StatelessWidget {
                     child: Container(
                       width: myWidth * 0.50,
                       height: 130,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            data.description,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w100,
-                              color: Colors.grey,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              data.description,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w100,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "de " + data.depart,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w100,
-                              color: Colors.grey,
+                            Text(
+                              "de " + data.depart,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w100,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "à " + data.destination,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w100,
-                              color: Colors.grey,
+                            Text(
+                              "à " + data.destination,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w100,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                          Text(
-                            data.date.substring(0, data.date.indexOf('T')),
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w100,
-                              color: Colors.grey,
+                            Text(
+                              data.date.substring(0, data.date.indexOf('T')),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w100,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Paiement : " +
-                                TYPE_PAIEMENTS[data.idPaiement - 1]['titre'],
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w100,
-                              color: Colors.grey,
+                            Text(
+                              "Paiement : " +
+                                  TYPE_PAIEMENTS[data.idPaiement - 1]['titre'],
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w100,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Bagages : " + data.bagages.join(" ; "),
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w100,
-                              color: Colors.grey,
+                            Text(
+                              "Bagages : " + data.bagages.join(" ; "),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w100,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
