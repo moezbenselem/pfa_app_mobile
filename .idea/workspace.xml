@@ -6,18 +6,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d109582-cb81-40fe-82f4-33fc046e1cf7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/screens/create_accounts.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/accueil.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/accueil.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/ajout_demande.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/ajout_demande.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/mes_offres.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/mes_offres.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/profile.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/signup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/signup.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/demande_details_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/demande_details_card.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/offre_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/offre_card.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/widgets/offre_recu_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/offre_recu_card.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,7 +17,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="LHTDU17104008154" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Galaxy_Nexus_API_23" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>

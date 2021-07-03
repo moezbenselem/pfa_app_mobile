@@ -338,7 +338,8 @@ class _SignupScreenState extends State<SignupScreen> {
         if (hint == "Prenom" && value.length < 3) {
           return "Prenom Invalide !";
         }
-        if (hint == "CIN" && value.length != 8 && int.tryParse(value) == null) {
+        if (hint == "CIN" &&
+            (value.length != 8 || (int.tryParse(value) == null))) {
           return "CIN Invalide !";
         }
         if (hint == "Patente" && value.length < 8) {

@@ -9,6 +9,7 @@ import 'package:pfa_app/Models/demande.dart';
 import 'package:pfa_app/Models/offre.dart';
 import 'package:pfa_app/Utils/api_config.dart';
 import 'package:pfa_app/consts/const_strings.dart';
+import 'package:pfa_app/consts/constants.dart';
 import 'package:pfa_app/screens/details.dart';
 import 'package:pfa_app/services.dart';
 
@@ -27,7 +28,9 @@ class OffreRecuCard extends StatefulWidget {
 class _OffresRecusCard extends State<OffreRecuCard> {
   User user;
   final Offre data;
+  String cmnt;
   bool showMore = false;
+  final _formKey = GlobalKey<FormState>();
 
   _OffresRecusCard(this.user, this.data);
 
@@ -130,6 +133,52 @@ class _OffresRecusCard extends State<OffreRecuCard> {
                             var u = await fetchUserInfo(
                                 user.token, data.userId.toString());
                             _callNumber(u['tel']);
+                          }
+                          if (selected == 2) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Information'),
+                                  content: SingleChildScrollView(
+                                    child: Form(
+                                      key: _formKey,
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          TextFormField(
+                                            decoration: InputDecoration(
+                                              hintStyle: kHintTextStyle,
+                                              labelText: "Votre Commentaire",
+                                            ),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                cmnt = value;
+                                              });
+                                            },
+                                            keyboardType: TextInputType.text,
+                                            validator: (value) {
+                                              if (value.isEmpty ||
+                                                  value == null)
+                                                return "Champ Obligatoire !";
+                                              return null;
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text('Envoyer'),
+                                      onPressed: () {
+                                        if (_formKey.currentState.validate())
+                                          sendReclamation();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           }
                         },
                         itemBuilder: (BuildContext context) =>
@@ -252,6 +301,64 @@ class _OffresRecusCard extends State<OffreRecuCard> {
         );
       },
     );
+  }
+
+  sendReclamation() async {
+    print("sending reclamation");
+    //user = User.fromJson(await SharedPref().read('user'));
+    var token = widget.user.token;
+
+    http.Response response;
+    response = await http.post(Uri.http(apiBaseUrl, 'reclamation/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(<String, dynamic>{
+          "description": cmnt,
+          "offreId": widget.data.id,
+          "userId": widget.user.id,
+          "date": DateTime.now().toLocal().toString().split(' ')[0],
+        }));
+    if (response.statusCode == 200) {
+      try {
+        var o = jsonDecode(response.body);
+        print("reclamation result : " + response.body);
+
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Reclamation envoyée !')));
+      } catch (Exception) {
+        Exception.toString();
+      }
+    } else {
+      Navigator.of(context).pop();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Opération Echoué !'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text("La Réclamation n'est pas envoyée!"),
+                  Text("Veillez ressayer !"),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Réessayer'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      print("cant add reclamation !");
+    }
   }
 
   _callNumber(number) async {
