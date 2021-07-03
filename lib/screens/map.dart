@@ -8,7 +8,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pfa_app/Utils/SharedPref.dart';
 import 'package:pfa_app/consts/constants.dart';
-import 'package:progress_indicators/progress_indicators.dart';
 
 class MapScreen extends StatefulWidget {
   @override

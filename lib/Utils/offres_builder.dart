@@ -7,6 +7,7 @@ import 'package:pfa_app/Models/User.dart';
 import 'package:pfa_app/Models/offres.dart';
 import 'package:pfa_app/widgets/offre_card.dart';
 import 'package:progress_indicators/progress_indicators.dart';
+
 import 'api_config.dart';
 
 class OffresBuilder extends StatelessWidget {

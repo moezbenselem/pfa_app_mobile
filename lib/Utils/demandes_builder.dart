@@ -14,6 +14,7 @@ import 'api_config.dart';
 class DemandesBuilder extends StatelessWidget {
   final User user;
   final String filtre;
+
   DemandesBuilder({@required this.user, @required this.filtre});
 
   @override
